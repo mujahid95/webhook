@@ -25,7 +25,8 @@ class WebhookController extends Controller
 
             // Compute the HMAC hex digest
             $payload = $request->getContent();
-            $computedSignature = 'sha1=' . hash_hmac('sha1', $payload, $this->webHookSecretKey);
+            Log::info('sig', [$signature]);
+            $computedSignature = Hash::make($this->webHookSecretKey);
 
             // Compare the received and computed signatures
             if (!Hash::check($computedSignature, $signature)) {
