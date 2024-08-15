@@ -34,24 +34,24 @@ class WebhookController extends Controller
                 Log::warning('Invalid signature', ['signature' => $signature, 'computed' => $computedSignature]);
                 return response()->json(['error' => 'Invalid signature'], 403);
             }
-//
-//            // Handle the webhook payload
-//            $payload = $request->all();
-//
-//            // Log the payload for debugging
-//            Log::info('Webhook payload received:', $payload);
-//
-//            if ($request->header('X-GitHub-Event') === Constant::PRType['open']) {
-//                $action = $payload['action'] ?? null;
-//
-//                // If the PR is opened
-//                if ($action === Constant::PRAction['opened']) {
-//                    Log::info('PR opened:', [
-//                        'repository' => $payload['repository']['full_name'],
-//                        'pull_request' => $payload['pull_request']
-//                    ]);
-//                }
-//            }
+
+            // Handle the webhook payload
+            $payload = $request->all();
+
+            // Log the payload for debugging
+            Log::info('Webhook payload received:', $payload);
+
+            if ($request->header('X-GitHub-Event') === Constant::PRType['open']) {
+                $action = $payload['action'] ?? null;
+
+                // If the PR is opened
+                if ($action === Constant::PRAction['opened']) {
+                    Log::info('PR opened:', [
+                        'repository' => $payload['repository']['full_name'],
+                        'pull_request' => $payload['pull_request']
+                    ]);
+                }
+            }
 
 
         } catch (Exception $exception) {
