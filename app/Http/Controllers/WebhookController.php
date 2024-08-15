@@ -22,35 +22,36 @@ class WebhookController extends Controller
         try {
             // Get the X-Hub-Signature header
             $signature = $request->header('X-Hub-Signature');
-
-            // Compute the HMAC hex digest
+//
+//            // Compute the HMAC hex digest
             $payload = $request->getContent();
             Log::info('sig', [$signature]);
-            $computedSignature = Hash::make($this->webHookSecretKey);
+            // Compute the expected HMAC signature
+            $computedSignature = 'sha1=' . hash_hmac('sha1', $payload, $this->webHookSecretKey);
 
-            // Compare the received and computed signatures
-            if (!Hash::check($computedSignature, $signature)) {
-                Log::warning('Invalid signature');
+            // Verify if the signature matches
+            if (!hash_equals($computedSignature, $signature)) {
+                Log::warning('Invalid signature', ['signature' => $signature, 'computed' => $computedSignature]);
                 return response()->json(['error' => 'Invalid signature'], 403);
             }
-
-            // Handle the webhook payload
-            $payload = $request->all();
-
-            // Log the payload for debugging
-            Log::info('Webhook payload received:', $payload);
-
-            if ($request->header('X-GitHub-Event') === Constant::PRType['open']) {
-                $action = $payload['action'] ?? null;
-
-                // If the PR is opened
-                if ($action === Constant::PRAction['opened']) {
-                    Log::info('PR opened:', [
-                        'repository' => $payload['repository']['full_name'],
-                        'pull_request' => $payload['pull_request']
-                    ]);
-                }
-            }
+//
+//            // Handle the webhook payload
+//            $payload = $request->all();
+//
+//            // Log the payload for debugging
+//            Log::info('Webhook payload received:', $payload);
+//
+//            if ($request->header('X-GitHub-Event') === Constant::PRType['open']) {
+//                $action = $payload['action'] ?? null;
+//
+//                // If the PR is opened
+//                if ($action === Constant::PRAction['opened']) {
+//                    Log::info('PR opened:', [
+//                        'repository' => $payload['repository']['full_name'],
+//                        'pull_request' => $payload['pull_request']
+//                    ]);
+//                }
+//            }
 
 
         } catch (Exception $exception) {
