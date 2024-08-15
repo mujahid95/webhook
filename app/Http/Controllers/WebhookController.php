@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\Log;
 
 class WebhookController extends Controller
 {
-    public function __construct()
-    {
-
-    }
-
     public function handle(Request $request)
     {
         try {
