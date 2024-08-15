@@ -18,7 +18,7 @@ class WebhookController extends Controller
         try {
             Log::info('request', [$request->all()]);
         } catch (Exception $exception) {
-
+            Log::error('in catch => ', [$exception->getMessage()]);
         }
     }
 }
