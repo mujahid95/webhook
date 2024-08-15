@@ -18,6 +18,5 @@ Route::group(['prefix' => 'api'], fn() => [
     Route::post('create/user', [UserController::class, 'store']),
 ]);
 
-//Route::get('{view}', \App\Http\Controllers\ApplicationController::class)->where('view', '(.*)');
+Route::get('{view}', \App\Http\Controllers\ApplicationController::class)->where('view', '(.*)');
 
-Route::post('webhook', [WebhookController::class, 'handle']);
