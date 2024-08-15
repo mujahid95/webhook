@@ -29,6 +29,8 @@ class WebhookController extends Controller
             // Compute the expected HMAC signature
             $computedSignature = 'sha1=' . hash_hmac('sha1', $payload, $this->webHookSecretKey);
 
+            // This is pull request code
+
             // Verify if the signature matches
             if (!hash_equals($computedSignature, $signature)) {
                 Log::warning('Invalid signature', ['signature' => $signature, 'computed' => $computedSignature]);
