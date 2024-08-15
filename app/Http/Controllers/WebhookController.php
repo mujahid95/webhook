@@ -22,8 +22,8 @@ class WebhookController extends Controller
         try {
             // Get the X-Hub-Signature header
             $signature = $request->header('X-Hub-Signature');
-//
-//            // Compute the HMAC hex digest
+
+            // Compute the HMAC hex digest
             $payload = $request->getContent();
             Log::info('sig', [$signature]);
             // Compute the expected HMAC signature
